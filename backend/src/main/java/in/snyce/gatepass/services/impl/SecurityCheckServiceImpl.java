@@ -2,10 +2,11 @@ package in.snyce.gatepass.services.impl;
 
 import in.snyce.gatepass.model.SecurityCheck;
 import in.snyce.gatepass.repositories.SecurityCheckRepository;
-import org.springframework.stereotype.Service;
 import in.snyce.gatepass.services.SecurityCheckService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SecurityCheckServiceImpl implements SecurityCheckService {
@@ -16,32 +17,29 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
         this.repository = repository;
     }
 
-    // Fetch all security checks from the repository
     @Override
     public List<SecurityCheck> getAll() {
         return repository.findAll();
     }
 
-    // Fetch a specific security check by its ID
     @Override
-    public SecurityCheck getById(Integer id) {
-        return repository.findById(id).orElseThrow();
+    public Optional<SecurityCheck> getById(Integer id) {
+        return repository.findById(id);
     }
 
-    // Create a new security check and save it to the repository
     @Override
     public SecurityCheck create(SecurityCheck check) {
         return repository.save(check);
     }
 
-    // Update an existing security check by its ID
     @Override
-    public SecurityCheck update(Integer id, SecurityCheck check) {
-        check.setId(id);
-        return repository.save(check);
+    public Optional<SecurityCheck> update(Integer id, SecurityCheck check) {
+        return repository.findById(id).map(existing -> {
+            existing.setGatepassId(check.getGatepassId());
+            return repository.save(existing);
+        });
     }
 
-    // Delete a security check by its ID
     @Override
     public void delete(Integer id) {
         repository.deleteById(id);

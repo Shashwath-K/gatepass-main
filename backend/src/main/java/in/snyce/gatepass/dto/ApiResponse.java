@@ -1,60 +1,63 @@
 package in.snyce.gatepass.dto;
 
-import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
+import java.util.Map;
 
-public class ApiResponse<T> {
-    private int statusCode;
-    private String statusMessage;
-    private LocalDateTime lastUpdated;
-    private T data;
 
-    // Constructor without lastUpdated
-    public ApiResponse(HttpStatus status, T data) {
-        this.statusCode = status.value();
-        this.statusMessage = status.getReasonPhrase();
-        this.data = data;
+public class ApiResponse {
+
+    private String status; // Example: "active", "pending", etc.
+    private Map<String, LocalDateTime> duration; // Includes startDate and endDate
+    private String message; // Describes the result
+    private boolean success; // Indicates if the operation was successful
+
+    public ApiResponse() {}
+
+    // For full responses with filtering context
+    public ApiResponse(String status, Map<String, LocalDateTime> duration, String message, boolean success) {
+        this.status = status;
+        this.duration = duration;
+        this.message = message;
+        this.success = success;
     }
 
-    // Constructor with lastUpdated
-    public ApiResponse(HttpStatus status, LocalDateTime lastUpdated, T data) {
-        this.statusCode = status.value();
-        this.statusMessage = status.getReasonPhrase();
-        this.lastUpdated = lastUpdated;
-        this.data = data;
+    // For simple success/failure responses (like create/update/delete)
+    public ApiResponse(String message, boolean success) {
+        this.message = message;
+        this.success = success;
     }
 
-    // Getters and Setters
-    public int getStatusCode() {
-        return statusCode;
+    // Getters and setters
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getStatusMessage() {
-        return statusMessage;
+    public Map<String, LocalDateTime> getDuration() {
+        return duration;
     }
 
-    public void setStatusMessage(String statusMessage) {
-        this.statusMessage = statusMessage;
-    }
-    //Retrieve the lastUpdated date and time of the record
-    public LocalDateTime getLastUpdated() {
-        return lastUpdated;
+    public void setDuration(Map<String, LocalDateTime> duration) {
+        this.duration = duration;
     }
 
-    //Set the current date and time when data is modified
-    public void setLastUpdated(LocalDateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public String getMessage() {
+        return message;
     }
 
-    public T getData() {
-        return data;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 }
+

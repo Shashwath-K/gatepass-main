@@ -1,36 +1,52 @@
-CREATE TABLE USER (
-    user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    role VARCHAR(100) NOT NULL
-);
+-- Create the database
+CREATE DATABASE IF NOT EXISTS gatepass_db;
+USE gatepass_db;
 
-CREATE TABLE GATEPASS (
-    gatepass_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    gatepass_no VARCHAR(50) NOT NULL,
-    park VARCHAR(255),
-    building VARCHAR(255),
-    request_date DATE,
-    vendor_name VARCHAR(255),
-    material_description TEXT,
-    category VARCHAR(255),
+-- Create the gatepass table
+CREATE TABLE IF NOT EXISTS gatepass (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    gatepass_number VARCHAR(50) NOT NULL UNIQUE,
+    issue_date DATE NOT NULL,
+    block VARCHAR(100),
+    site_address VARCHAR(255),
+
+    -- Building Manager
+    building_manager_name VARCHAR(100),
+    building_manager_contact VARCHAR(20),
+
+    -- Vendor Info
+    vendor_name VARCHAR(100),
+    vendor_contact VARCHAR(20),
+    vendor_address VARCHAR(255),
+
+    -- Approval
+    requisitioner VARCHAR(100),
+    pm_representative VARCHAR(100),
+    reit_representative VARCHAR(100),
+    approval_datetime DATETIME,
+
+    -- Movement
+    outward_date DATE,
+    inward_date DATE,
+
+    -- Status
+    category ENUM('Returnable', 'Non-Returnable') NOT NULL,
+    status ENUM('Pending', 'Approved', 'Closed') NOT NULL,
     return_acceptance_date DATE,
-    outward_receipt VARCHAR(255),
-    inward_receipt VARCHAR(255),
-    image_attachment VARCHAR(255),
-    status VARCHAR(100),
-    requested_by INT,
-    approved_by INT,
-    FOREIGN KEY (requested_by) REFERENCES USER(user_id),
-    FOREIGN KEY (approved_by) REFERENCES USER(user_id)
+
+    -- Timestamps
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE SECURITY_CHECK (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    gatepass_id INT NOT NULL,
-    security_id INT NOT NULL,
-    status VARCHAR(100),
-    check_date DATE,
-    FOREIGN KEY (gatepass_id) REFERENCES GATEPASS(gatepass_id)
+-- Create the asset_detail table
+CREATE TABLE IF NOT EXISTS asset_detail (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    gatepass_id BIGINT NOT NULL,
+    asset_name VARCHAR(100),
+    material_description VARCHAR(255),
+    quantity INT,
+    value DECIMAL(10,2),
+    remarks VARCHAR(255),
+    FOREIGN KEY (gatepass_id) REFERENCES gatepass(id) ON DELETE CASCADE
 );
