@@ -1,4 +1,4 @@
-package in.snyce.gatepass.exceptions;
+package in.snyce.gatepass.enums;
 
 public enum ResponseMessage {
     GATEPASS_CREATED_SUCCESSFULLY("Gatepass created successfully."),

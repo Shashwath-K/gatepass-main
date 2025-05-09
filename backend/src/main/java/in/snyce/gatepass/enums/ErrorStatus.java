@@ -1,4 +1,4 @@
-package in.snyce.gatepass.exceptions;
+package in.snyce.gatepass.enums;
 
 public enum ErrorStatus {
     BAD_REQUEST(400),

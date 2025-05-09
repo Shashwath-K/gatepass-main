@@ -1,4 +1,4 @@
-package in.snyce.gatepass.exceptions;
+package in.snyce.gatepass.enums;
 
 public class ErrorMessage {
     public static final String GATEPASS_NOT_FOUND = "Gatepass not found.";

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Gatepasses</title>
+</head>
+<body>
+<h2>Gatepasses List</h2>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Gatepass No</th>
+        <th>Site</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {{#gatepasses}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{gatePassNo}}</td>
+            <td>{{site}}</td>
+            <td>{{status}}</td>
+            <td>
+                <a href="/gatepasses/edit/{{id}}">Edit</a> |
+                <a href="/gatepasses/delete/{{id}}">Delete</a>
+            </td>
+        </tr>
+    {{/gatepasses}}
+</table>
+</body>
+</html>

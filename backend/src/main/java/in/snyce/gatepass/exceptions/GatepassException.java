@@ -1,5 +1,7 @@
 package in.snyce.gatepass.exceptions;
 
+import in.snyce.gatepass.enums.ErrorCode;
+import in.snyce.gatepass.enums.ErrorStatus;
 import org.springframework.http.HttpStatus;
 
 public class GatepassException extends RuntimeException {
